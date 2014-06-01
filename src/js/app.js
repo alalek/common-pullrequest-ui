@@ -18,15 +18,15 @@ var app = angular.module('app', [
 
 .config(function($routeProvider) {
   $routeProvider.
-    when('/summary', {
+    when('/summary/', {
       title: 'summary',
       templateUrl: 'partials/pr-summary.html',
       controller: 'PRSummaryCtrl'
     }).
-    when('/:prId', {
-      title: 'detail',
-      templateUrl: 'partials/pr-detail.html',
-      controller: 'PRDetailCtrl'
+    when('/summary/:repoName', {
+      title: 'summary',
+      templateUrl: 'partials/pr-summary.html',
+      controller: 'PRSummaryCtrl'
     }).
     otherwise({
       title: '?',
@@ -37,5 +37,6 @@ var app = angular.module('app', [
 .run(function($location, $rootScope) {
   $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
       $rootScope.title = current.$$route.title;
+      $rootScope.repoName = current.params.repoName;
   });
 });

@@ -11,6 +11,17 @@
  
    <h2>
     Active pull requests
+    <div class="btn-group" dropdown ng-if="repoInfo">
+      <button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">
+        {{repoInfo.name || repoInfo.id}} <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="repo in repositories">
+         <a ng-href="#/summary/{{repo.id}}">{{repo.name || repo.id}}</a>
+        </li>
+      </ul>
+    </div>
+    
     <button type="button" class="btn btn-primary" ng-click="loadAll()"><span class="glyphicon glyphicon-refresh"></span></button>
    </h2>
    

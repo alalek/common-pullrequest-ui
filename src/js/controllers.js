@@ -278,17 +278,25 @@ angular.module('prControllers', ['appServices'])
     alert.success("Reload data...");
 
     var target = {}
+    target.repoName = undefined;
+    target.repositories = undefined;
+    target.repoInfo = undefined;
+    target.authInfo = undefined;
     target.pullrequests = new PRCollection();
+    target.builders = undefined;
 
     var cfgPromise = $q.defer();
 
     PRConfig.query()
     .success(function(config) {
       var repoName = $scope.repoName;  // opencv, opencv_contrib, private GitLab, etc
+      target.repositories = config.repositories;
       var repoInfo = _.find(config.repositories, {id:repoName});
       if (repoInfo === undefined) {
-        if (repoName !== undefined)
+        if (repoName !== undefined) {
           alert.error("Invalid repo name: " + repoName);
+          return;
+        }
         repoInfo = config.repositories[0];
         repoName = repoInfo.id;
       }
@@ -307,9 +315,10 @@ angular.module('prControllers', ['appServices'])
         })
         .error(function(data, status, headers, config) {
           alert.error("No user info - " + status + (data.message ? " (" + data.message + ")" : ""));
-          target.authInfo = undefined;
         })['finally'](authPromize.resolve);
         loadPromises.push(authPromize.promise);
+      } else {
+        alert.warning("Merge service is not available");
       }
 
       _.forEach(repoInfo.info_services, function(info_service) {
