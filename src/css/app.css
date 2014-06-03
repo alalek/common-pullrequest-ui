@@ -82,6 +82,10 @@ table.prtable > tbody > tr > td {
   vertical-align: middle;
 }
 
+.merge-info .label {
+  white-space: normal;
+}
+
 .build-detail {
   font-size: 10px;
   font-family: Verdana, sans-serif;

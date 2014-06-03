@@ -185,6 +185,7 @@ angular.module('prControllers', ['appServices'])
           .success(function(data, status, headers, config) {
             pr.updateAll(data);
             alert.success(prName + ": Updated!");
+            pr.queryBuildStatusFast();
           })
           .error(function(data, status, headers, config) {
             alert.error(prName + ": Update FAILED! (" + status + (data ? "-" + data.message : "") + ")!");
@@ -211,6 +212,7 @@ angular.module('prControllers', ['appServices'])
         var clearMergeInfo = function() {
           pr.merge.$timeoutHandle = undefined;
           delete pr['merge'];
+          pr.queryBuildStatusFast();
         }
 
         var prName = 'PR #' + pr.id;
@@ -247,6 +249,18 @@ angular.module('prControllers', ['appServices'])
         });
         return true;
       },
+      queryBuildStatusFast: function () {
+        var pr = this;
+
+        var prName = 'PR #' + pr.id;
+        return PRMerge($scope.repoInfo).queryFast(pr.id)
+        .success(function(data, status, headers, config) {
+          pr.merge = data;
+        })
+        .error(function(data, status, headers, config) {
+          alert.error(prName + ": Query FAST FAILED! (" + status + (data ? "-" + data.message : "") + ")!");
+        });
+      }
     };
 
     return PullRequest;
@@ -363,6 +377,11 @@ angular.module('prControllers', ['appServices'])
         $scope[key] = value;
       });
       alert.success("Data is updated");
+      $timeout(function () {
+        _.forEach(target.pullrequests, function(pr) {
+          pr.queryBuildStatusFast();
+        });
+      }, 500);
     });
 
     return true;

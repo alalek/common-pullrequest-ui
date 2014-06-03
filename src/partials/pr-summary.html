@@ -85,11 +85,12 @@
        </div>
        <div>
         <div class="center">{{pr.title}}</div>
-        <span ng-if="authInfo && authInfo.mergeRight && pr.title">
+        <span ng-if="authInfo && authInfo.mergeRight && pr.title" class="merge-info">
          <button tooltip="Query merge status" type="button" class="btn btn-danger btn-xs" ng-click="pr.queryMerge()"><span class="glyphicon glyphicon-refresh"></span></button>
          <span ng-if="pr.merge">
           <span ng-if="pr.merge.status"><button type="button" class="btn btn-danger btn-xs" ng-click="pr.doMerge()" tooltip="Merge #{{pr.id}} to {{pr.branch}}"><b>Merge</b></button>&nbsp;</span>
           <div ng-if="pr.merge.message" class="label" ng-class="pr.merge.status ? 'label-success' : 'label-warning'">{{pr.merge.message}}</div>
+          <div ng-if="!pr.merge.message && pr.merge.messageFast" class="label" ng-class="pr.merge.statusFast ? 'label-success' : 'label-warning'">{{pr.merge.messageFast}}</div>
          </span>
         </span>
         <div ng-click="openModal()" class="markdown-body" ng-bind-html="pr.description_short_html"/>

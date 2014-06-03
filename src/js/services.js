@@ -40,6 +40,10 @@ angular.module('appServices', ['ngResource'])
         return $http.post(repoInfo.merge_service.url + 'query',
           {'repoId':repoInfo.id, 'prId':prid});
       },
+      queryFast: function(prid) {
+        return $http.post(repoInfo.merge_service.url + 'queryFast',
+          {'repoId':repoInfo.id, 'prId':prid});
+      },
       merge: function(prid) {
         return $http.post(repoInfo.merge_service.url + 'merge',
             {'repoId':repoInfo.id, 'prId':prid});
