@@ -550,3 +550,12 @@ input.hold {
 .markdown-body pre code:before,.markdown-body pre code:after,.markdown-body pre tt:before,.markdown-body pre tt:after {
     content: normal
 }
+
+/* fixed.table.header addon */
+.fth-fixed {
+  top:0;
+  position:fixed;
+  width:auto;
+  display:none;
+  border:none;
+}

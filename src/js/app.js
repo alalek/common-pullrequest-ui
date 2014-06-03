@@ -14,6 +14,7 @@ var app = angular.module('app', [
   'appServices',
   'bootstrapAddons',
   'alert',
+  'fixed.table.header',
 ])
 
 .config(function($routeProvider) {
