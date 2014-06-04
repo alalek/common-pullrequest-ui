@@ -189,6 +189,12 @@ angular.module('prControllers', ['appServices'])
           })
           .error(function(data, status, headers, config) {
             alert.error(prName + ": Update FAILED! (" + status + (data ? "-" + data.message : "") + ")!");
+            if (status == 404) {
+              if ($scope.pullrequests[pr.id] == pr) {
+                delete $scope.pullrequests[pr.id]
+                pr.cancelUpdate(); 
+              }
+            }
           });
         };
         if (pr.$updateTimeout !== undefined)
@@ -348,6 +354,9 @@ angular.module('prControllers', ['appServices'])
             builder.baseUrl = info_service.url;
           });
 
+          // Debug: unexisted/closed/merged PR
+          // info['pullrequests']['99999'] = {'id':'99999', 'title':'test'};
+          
           _.forEach(info['pullrequests'], function(prdata, id) {
             var pr = target.pullrequests.get(id);
             prdata.info_service = info_service;
