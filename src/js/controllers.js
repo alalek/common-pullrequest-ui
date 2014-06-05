@@ -511,7 +511,7 @@ angular.module('prControllers', ['appServices'])
       windowClass: 'fullwidth'
     });
     var done = function() {
-      alert.success('PR details closed ('+pr.id+'): '+ Date.now());
+      alert.success('PR details closed ('+pr.id+')');
     };
     $modal.open(options).result.then(done, done);
   };

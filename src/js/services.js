@@ -41,8 +41,8 @@ angular.module('appServices', ['ngResource'])
           {'repoId':repoInfo.id, 'prId':prid});
       },
       queryFast: function(prid) {
-        return $http.post(repoInfo.merge_service.url + 'queryFast',
-          {'repoId':repoInfo.id, 'prId':prid});
+        return $http.get(repoInfo.merge_service.url + 'queryFast',
+           {params: {'repoId':repoInfo.id, 'prId':prid}});
       },
       merge: function(prid) {
         return $http.post(repoInfo.merge_service.url + 'merge',
