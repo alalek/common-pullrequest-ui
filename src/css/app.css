@@ -82,6 +82,10 @@ table.prtable > tbody > tr > td {
   vertical-align: middle;
 }
 
+.buildstatus {
+  max-width: 100px;
+}
+
 .merge-info .label {
   white-space: normal;
 }
@@ -169,6 +173,10 @@ table.prtable td.description,
   max-width: 400px;
   word-wrap: break-word;
   text-align: left;
+}
+
+table.prtable td.description .label.label-warning {
+  white-space: normal;
 }
 
 .markdown-body p code,

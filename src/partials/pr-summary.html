@@ -10,7 +10,7 @@
    </div>
 
    <h2>
-    Active pull requests
+    Active pull requests<span ng-if="pullrequests.count()"> ({{pullrequests.count()}})</span>
     <div class="btn-group" dropdown ng-if="repoInfo">
       <button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">
         {{repoInfo.name || repoInfo.id}} <span class="caret"></span>
@@ -48,7 +48,7 @@
       <th class="description" style="max-width: 15%">
        Title & description
       </th>
-      <th ng-repeat="builder in filteredBuilders" toggle-id="#toggleBuilderFilter" ng-class="getBuilderRenderClass()">{{builder.name}}</th>
+      <th ng-repeat="builder in filteredBuilders" toggle-id="#toggleBuilderFilter" class="buildstatus" ng-class="getBuilderRenderClass()">{{builder.name}}</th>
      </tr>
      <tr class="fixed-table-header-hide">
       <th ng-class="getPRRenderClass()" style="max-width: 7%">
@@ -85,6 +85,7 @@
        </div>
        <div>
         <div class="center">{{pr.title}}</div>
+        <button tooltip="Refresh PR build status" type="button" class="btn btn-primary btn-xs" ng-click="pr.scheduleUpdate(0)"><span class="glyphicon glyphicon-refresh"></span></button>&nbsp;
         <span ng-if="authInfo && authInfo.mergeRight && pr.title" class="merge-info">
          <button tooltip="Query merge status" type="button" class="btn btn-danger btn-xs" ng-click="pr.queryMerge()"><span class="glyphicon glyphicon-refresh"></span></button>
          <span ng-if="pr.merge">
@@ -96,7 +97,7 @@
         <div class="markdown-body" ng-bind-html="pr.description_short_html"/>
        </div>
       </td>
-      <td ng-repeat="build in getBuilds()" ng-controller="BuildController" ng-include="getBuildTemplate()" ng-class="getBuildRenderClass()"></td>
+      <td ng-repeat="build in getBuilds()" ng-controller="BuildController" ng-include="getBuildTemplate()" class="buildstatus" ng-class="getBuildRenderClass()"></td>
      </tr>
     </tbody>
    </table>
