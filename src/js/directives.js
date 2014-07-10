@@ -184,7 +184,7 @@ angular.module('appDirectives', [])
       timeInterval : '='
     },
     link : function(scope, element, attrs) {
-      
+
       function set(val) {
         if (scope.timeInterval !== undefined)
           element.html('<span>' + formatInterval(scope.timeInterval) + '</span>');

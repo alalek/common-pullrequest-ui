@@ -1,6 +1,6 @@
 'use strict';
 
-window.ondragstart = function() { return false; }; 
+window.ondragstart = function() { return false; };
 
 /* App Module */
 

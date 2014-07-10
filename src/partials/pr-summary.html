@@ -8,7 +8,7 @@
      <button type="button" class="btn-xs btn-primary" ng-if='!authInfo || !(authInfo.user)' ng-click="doLogin()">Login</button>
     </div>
    </div>
- 
+
    <h2>
     Active pull requests
     <div class="btn-group" dropdown ng-if="repoInfo">
@@ -21,10 +21,10 @@
         </li>
       </ul>
     </div>
-    
+
     <button type="button" class="btn btn-primary" ng-click="loadAll()"><span class="glyphicon glyphicon-refresh"></span></button>
    </h2>
-   
+
    <div>
     <h3 ng-if="repoInfo.info_services.length > 0">
      <a ng-repeat="info in repoInfo.info_services" class="btn btn-info" ng-href="{{info.url}}" target="_blank">{{info.id}}</a>

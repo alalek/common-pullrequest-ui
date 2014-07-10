@@ -65,7 +65,7 @@ angular.module('alert', [])
     if ($rootScope.$$phase)
       doWork();
     else
-      $scope.$apply(doWork); 
+      $scope.$apply(doWork);
   });
 })
 

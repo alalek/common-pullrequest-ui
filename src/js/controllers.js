@@ -192,7 +192,7 @@ angular.module('prControllers', ['appServices'])
             if (status == 404) {
               if ($scope.pullrequests[pr.id] == pr) {
                 delete $scope.pullrequests[pr.id]
-                pr.cancelUpdate(); 
+                pr.cancelUpdate();
               }
             }
           });
@@ -257,6 +257,9 @@ angular.module('prControllers', ['appServices'])
       },
       queryBuildStatusFast: function () {
         var pr = this;
+
+        if ($scope.repoInfo.merge_service == undefined)
+            return;
 
         var prName = 'PR #' + pr.id;
         return PRMerge($scope.repoInfo).queryFast(pr.id)
@@ -326,19 +329,24 @@ angular.module('prControllers', ['appServices'])
 
       var loadPromises = [];
 
+      var authServiceUrl = undefined;
       if (repoInfo.merge_service !== undefined) {
-        var authPromize = $q.defer();
-        AuthInfo(repoInfo.merge_service.url).query()
-        .success(function (res) {
-          alert.success("User: '" + res.user + "'" + (res.mergeRight ? " with merge right" : ""));
-          target.authInfo = res;
-        })
-        .error(function(data, status, headers, config) {
-          alert.error("No user info - " + status + (data.message ? " (" + data.message + ")" : ""));
-        })['finally'](authPromize.resolve);
-        loadPromises.push(authPromize.promise);
+        authServiceUrl = repoInfo.merge_service.url;
       } else {
         alert.warning("Merge service is not available");
+        authServiceUrl = repoInfo.info_services[0].url;
+      }
+      if (authServiceUrl) {
+          var authPromize = $q.defer();
+          AuthInfo(authServiceUrl).query()
+          .success(function (res) {
+            alert.success("User: '" + res.user + "'" + (res.mergeRight ? " with merge right" : ""));
+            target.authInfo = res;
+          })
+          .error(function(data, status, headers, config) {
+            alert.error("No user info - " + status + (data.message ? " (" + data.message + ")" : ""));
+          })['finally'](authPromize.resolve);
+          loadPromises.push(authPromize.promise);
       }
 
       _.forEach(repoInfo.info_services, function(info_service) {
@@ -356,7 +364,7 @@ angular.module('prControllers', ['appServices'])
 
           // Debug: unexisted/closed/merged PR
           // info['pullrequests']['99999'] = {'id':'99999', 'title':'test'};
-          
+
           _.forEach(info['pullrequests'], function(prdata, id) {
             var pr = target.pullrequests.get(id);
             prdata.info_service = info_service;
@@ -459,7 +467,7 @@ angular.module('prControllers', ['appServices'])
   $scope.$watchCollection('filteredBuilders', updatePRBuilds);
   $scope.$watchCollection('filteredPullrequests', updatePRBuilds);
 
-  
+
   $scope.resetPRFilter = function () {
     alert.warning('Reset PR filters');
     $scope.prIdFilter=undefined;
@@ -515,7 +523,7 @@ angular.module('prControllers', ['appServices'])
     };
     $modal.open(options).result.then(done, done);
   };
-  
+
   $scope.openModalMessage = function(title, message) {
     var options = {
       templateUrl: '/partials/modal-message.html',

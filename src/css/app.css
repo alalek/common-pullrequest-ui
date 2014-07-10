@@ -115,7 +115,7 @@ div.loading:after {
   background: url(../img/loading.gif) no-repeat; /* 32x32 */
   margin: -16px auto auto -16px;
   width: 32px;
-  height: 32px;  
+  height: 32px;
 }
 
 .status-success {

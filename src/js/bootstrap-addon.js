@@ -5,18 +5,17 @@
 var bootstrapAddons = angular.module('bootstrapAddons', []);
 
 // dropdown-close
-bootstrapAddons
-.directive('dropdownClose', function () {
-	var directiveDefinitionObject = {
-		restrict: 'AEC',
-		link : function(scope, element, attrs) {
-			$(element).click(function() {
-				var e = element.closest(".dropdown-menu").prev()[0];
-				$(e).trigger("click");
-			});
-		}
-	};
-	return directiveDefinitionObject;
+bootstrapAddons.directive('dropdownClose', function() {
+    var directiveDefinitionObject = {
+        restrict : 'AEC',
+        link : function(scope, element, attrs) {
+            $(element).click(function() {
+                var e = element.closest(".dropdown-menu").prev()[0];
+                $(e).trigger("click");
+            });
+        }
+    };
+    return directiveDefinitionObject;
 })
 
 // dropdown-prevent-close: prevent dropdown closing in click
@@ -45,7 +44,7 @@ bootstrapAddons
       $(toggleElem).on('click', function() {
         var e = $("input.autofocus", menu)[0];
         if (e)
-          e = $(e).focus(); 
+          e = $(e).focus();
       });
     }
   };
