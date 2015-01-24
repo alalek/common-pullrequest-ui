@@ -426,7 +426,8 @@ angular.module('prControllers', ['appServices'])
     $scope.filteredBuilders = buildersList;
     $scope.isBuildersFiltered = ($scope.builderFilter || "") !== "";
   };
-  $scope.$watchCollection('[builderFilter, builders]', updateBuilders);
+  $scope.$watchCollection('[builderFilter, builders]',
+      _.debounce(function () { $scope.$apply(updateBuilders); }, 1000));
   $scope.$watchCollection('builders', updateBuilders);
 
   $scope.resetBuilderFilter = function () {
@@ -458,7 +459,8 @@ angular.module('prControllers', ['appServices'])
     $scope.isPRFiltered = (($scope.prIdFilter || "") + ($scope.prNameFilter || "") +
         ($scope.prAuthorFilter || "")) !== "";
   };
-  $scope.$watchCollection('[prIdFilter, prNameFilter, prAuthorFilter]', updatePullrequests);
+  $scope.$watchCollection('[prIdFilter, prNameFilter, prAuthorFilter]',
+      _.debounce(function () { $scope.$apply(updatePullrequests); }, 1000));
   $scope.$watchCollection('pullrequests', updatePullrequests);
 
   function updatePRBuilds() {
