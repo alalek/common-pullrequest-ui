@@ -3,3 +3,4 @@ node_modules/
 !.bowerrc
 !.editorconfig
 .bower_modules/
+src/3rdparty
