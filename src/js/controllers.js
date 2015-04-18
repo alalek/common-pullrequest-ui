@@ -73,7 +73,7 @@ angular.module('prControllers', ['appServices'])
           var builder = _.find(scope.builders, {id : build.builderId});
           var buildName = 'PR #' + scope.pr.id + " (" + scope.builder.name + ")";
           alert.warning(buildName + ": Updating status...");
-          var buildUrl = scope.builder.baseUrl + "/" + build.operations_url;
+          var buildUrl = scope.builder.baseUrl + build.operations_url;
           return $http({method: 'GET', url: buildUrl})
           .success(function(data, status, headers, config) {
             build.assign(data);
@@ -513,7 +513,7 @@ angular.module('prControllers', ['appServices'])
     var pr = this.pr;
     var options = {};
     angular.extend(options, {
-      templateUrl: '/partials/pr-detail-modal.html',
+      templateUrl: 'partials/pr-detail-modal.html',
       controller: 'PRDetailCtrl',
       scope: this,
       windowClass: 'fullwidth'
@@ -526,7 +526,7 @@ angular.module('prControllers', ['appServices'])
 
   $scope.openModalMessage = function(title, message) {
     var options = {
-      templateUrl: '/partials/modal-message.html',
+      templateUrl: 'partials/modal-message.html',
       controller: 'ModalMessageCtrl',
       resolve: {
         title: function() { return title; },
