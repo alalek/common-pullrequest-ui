@@ -93,7 +93,7 @@
          </span>
         </span>
         <div ng-if="!pr.merge.message && pr.merge.messageFast" class="label" ng-class="pr.merge.statusFast ? 'label-success' : 'label-warning'">{{pr.merge.messageFast}}</div>
-        <div ng-click="openModal()" class="markdown-body" ng-bind-html="pr.description_short_html"/>
+        <div class="markdown-body" ng-bind-html="pr.description_short_html"/>
        </div>
       </td>
       <td ng-repeat="build in getBuilds()" ng-controller="BuildController" ng-include="getBuildTemplate()" ng-class="getBuildRenderClass()"></td>
