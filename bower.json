@@ -4,7 +4,7 @@
   "dependencies": {
     "lodash": "2.4.x",
     "jquery": "1.10.2",
-    "angular": "1.2.x",
+    "angular": "1.2.28",
     "angular-sanitize": "1.2.x",
     "angular-route": "1.2.x",
 
@@ -13,7 +13,7 @@
 
     "angular-resource": "~1.2.15",
 
-    "angular-marked": "0.0.x",
+    "angular-marked": "0.0.18",
 
     "angular-animate": "~1.2.15",
 
