@@ -1,6 +1,8 @@
+.git*
 !.gitkeep
 node_modules/
 !.bowerrc
 !.editorconfig
 .bower_modules/
+node_modules
 src/3rdparty
