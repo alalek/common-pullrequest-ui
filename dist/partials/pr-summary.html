@@ -1,0 +1,106 @@
+<div class="container-fluid">
+
+ <div class="row">
+  <div class="col-md-12">
+   <div style="display:block; float:right;">
+    <div class="auth">
+     <span ng-if='authInfo.user' class="label label-info">User: <b ng-bind="authInfo.user"></b></span>
+     <button type="button" class="btn-xs btn-primary" ng-if='!authInfo || !(authInfo.user)' ng-click="doLogin()">Login</button>
+    </div>
+   </div>
+
+   <h2>
+    Active pull requests<span ng-if="pullrequests.count()"> ({{pullrequests.count()}})</span>
+    <div class="btn-group" dropdown ng-if="repoInfo">
+      <button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">
+        {{repoInfo.name || repoInfo.id}} <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="repo in repositories">
+         <a ng-href="#/summary/{{repo.id}}">{{repo.name || repo.id}}</a>
+        </li>
+      </ul>
+    </div>
+
+    <button type="button" class="btn btn-primary" ng-click="loadAll()"><span class="glyphicon glyphicon-refresh"></span></button>
+   </h2>
+
+   <div>
+    <h3 ng-if="repoInfo.info_services.length > 0">
+     <a ng-repeat="info in repoInfo.info_services" class="btn btn-info" ng-href="{{info.url}}" target="_blank">{{info.id}}</a>
+    </h3>
+   </div>
+  </div>
+ </div>
+
+ <div class="row">
+  <div class="col-md-12">
+
+   <table class="prtable table" fixed-table-header>
+    <thead>
+     <tr>
+      <th ng-class="getPRRenderClass()" style="max-width: 7%">
+       Id
+      </th>
+      <th style="max-width: 7%">
+       Author
+      </th>
+      <th class="description" style="max-width: 15%">
+       Title & description
+      </th>
+      <th ng-repeat="builder in filteredBuilders" toggle-id="#toggleBuilderFilter" class="buildstatus" ng-class="getBuilderRenderClass()">{{builder.name}}</th>
+     </tr>
+     <tr class="fixed-table-header-hide">
+      <th ng-class="getPRRenderClass()" style="max-width: 7%">
+       <div class="input-group input-group-sm">
+        <input type="text" class="form-control" ng-model="prIdFilter" ng-trim="false" placeholder="filter"/>
+       </div>
+      </th>
+      <th style="max-width: 7%">
+       <div class="input-group input-group-sm">
+        <input type="text" class="form-control" ng-model="prAuthorFilter" ng-trim="false" placeholder="filter"/>
+       </div>
+      </th>
+      <th class="description" style="max-width: 15%">
+       <div class="input-group input-group-sm">
+        <input type="text" class="form-control autofocus" ng-model="prNameFilter" ng-trim="false" placeholder="PR name filter" autofocus>
+       </div>
+      </th>
+      <th ng-attr-colspan="{{filteredBuilders.length}}">
+       <div class="input-group input-group-sm">
+        <input type="text" class="form-control autofocus" ng-model="builderFilter" ng-trim="false" placeholder="Builder filter" autofocus>
+       </div>
+      </th>
+     </tr>
+    </head>
+    <tbody>
+     <tr ng-repeat="pr in filteredPullrequests" ng-mouseenter="updatePRBind()" ng-mouseleave="updatePRUnbind()">
+      <td ng-class="getPRRenderClass()"><a target="_blank" ng-href="{{pr.url}}">{{pr.id}}</a><br/><span>{{pr.branch}}</span></td>
+      <td><span ng-if="pr.author">{{pr.author}}<br/>/<br/>{{pr.assignee || "None"}}</span></td>
+      <td class="description">
+       <div class="pull-right row-hover-visible" style="display:table">
+        <div style="vertical-align: middle; display:table-cell">
+         <span class="glyphicon glyphicon-cog" ng-click="openModal()"></span>
+        </div>
+       </div>
+       <div>
+        <div class="center">{{pr.title}}</div>
+        <button tooltip="Refresh PR build status" type="button" class="btn btn-primary btn-xs" ng-click="pr.scheduleUpdate(0)"><span class="glyphicon glyphicon-refresh"></span></button>&nbsp;
+        <span ng-if="authInfo && authInfo.mergeRight && pr.title" class="merge-info">
+         <button tooltip="Query merge status" type="button" class="btn btn-danger btn-xs" ng-click="pr.queryMerge()"><span class="glyphicon glyphicon-refresh"></span></button>
+         <span ng-if="pr.merge">
+          <span ng-if="pr.merge.status"><button type="button" class="btn btn-danger btn-xs" ng-click="pr.doMerge()" tooltip="Merge #{{pr.id}} to {{pr.branch}}"><b>Merge</b></button>&nbsp;</span>
+          <div ng-if="pr.merge.message" class="label" ng-class="pr.merge.status ? 'label-success' : 'label-warning'">{{pr.merge.message}}</div>
+         </span>
+        </span>
+        <div ng-if="!pr.merge.message && pr.merge.messageFast" class="label" ng-class="pr.merge.statusFast ? 'label-success' : 'label-warning'">{{pr.merge.messageFast}}</div>
+        <div class="markdown-body" ng-bind-html="pr.description_short_html"/>
+       </div>
+      </td>
+      <td ng-repeat="build in getBuilds()" ng-controller="BuildController" ng-include="getBuildTemplate()" class="buildstatus" ng-class="getBuildRenderClass()"></td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </div>
+</div>
