@@ -1,9 +1,0 @@
-<div class="build-detail" ng-class="{loading: build.operation_in_progress}" tooltip="{{build.last_update | formatInterval}}">
- <div ng-if="build.build_number >= 0">
-  <a ng-href="{{builder.baseUrl + build.build_url}}" target="_blank">{{build.build_number}}</a>
- </div>
- <div>{{build.status}}</div>
- <div class="b-btn-container">
-  <img class="b-btn" ng-repeat="op in build.operations" ng-src="./img/control/{{op}}.png" ng-click="doOperation(op);" tooltip="{{op}}" tooltip-placement="bottom"/>
- </div>
-</div>
