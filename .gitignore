@@ -1,4 +1,5 @@
 .git*
+dist
 !.gitkeep
 node_modules/
 !.bowerrc

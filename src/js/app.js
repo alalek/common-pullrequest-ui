@@ -8,6 +8,7 @@ var app = angular.module('app', [
   'ui.bootstrap',
   'ngSanitize',
   'ngRoute',
+  'templates',
   'prControllers',
   'appFilters',
   'appDirectives',
@@ -41,3 +42,5 @@ var app = angular.module('app', [
       $rootScope.repoName = current.params.repoName;
   });
 });
+
+angular.module("templates", []);
